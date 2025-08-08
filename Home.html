@@ -18,6 +18,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
     .logo {
@@ -32,18 +35,33 @@
     }
 
     .hero {
-      background: url('https://images.unsplash.com/photo-1601933470928-c1083ef6c94f') center center / cover no-repeat;
+      position: relative;
       height: 400px;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: white;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('f50c5956-3e3e-4600-819a-f993dee77fa8.png') center center / cover no-repeat;
+      filter: blur(8px);
+      z-index: 1;
     }
 
     .hero h1 {
+      position: relative;
+      z-index: 2;
       font-size: 36px;
-      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
       padding: 20px;
       border-radius: 8px;
     }
@@ -133,33 +151,41 @@
       color: white;
       padding: 10px 0;
       margin-top: 60px;
+      width: 100vw;
+      position: relative;
+      left: 0;
+      box-sizing: border-box;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">🎓 University</div>
+  <div class="logo">
+    <img src="iduVNvI_xS_logos.png" alt="University Logo" height="64">
+  </div>
   <nav>
     <a href="#">Home</a>
     <a href="#">Academic</a>
     <a href="#">Blogs</a>
     <a href="#">Gallery</a>
-    <a href="signin.html">👤 Sign In</a> <!-- 👈 Updated this line -->
+    <a href="signin.html"> Sign In</a>
   </nav>
 </header>
 
+<!-- HERO -->
 <div class="hero">
-  <h1>Phnom Penh Camtech Summit, 18–19 September 2025</h1>
+  <h1>PARAGON INTERNATIONAL UNIVERSITY</h1>
 </div>
 
+<!-- MAIN SECTION CONTENT -->
 <div class="section">
   <h2>University provides the foundation. You build your legacy.</h2>
 
   <div class="welcome-section">
     <div class="welcome-text">
       <h3>Welcome</h3>
-      <p>University was established to accommodate the needs of its students in preparation for their future careers. We take pride in providing quality education using international standards. Our university has libraries, labs, lounges, and modern classrooms equipped with LCD projectors and internet access.</p>
+      <p>Paragon International University is among the top universities in Cambodia offering Undergraduate and Graduate programs with an internationally recognized curriculum.</p>
       <p>Our goal is to be a center for decision-making and development, guiding students to a better life, education, and career.</p>
     </div>
     <div class="notice-board">
@@ -176,7 +202,7 @@
       <p>A vibrant journey of discovery, new friendships, and growth toward your career.</p>
     </div>
     <div class="feature">
-      <img src="https://images.unsplash.com/photo-1581091870622-2fa1a0dbf1b8" alt="Research">
+      <img src="https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg" alt="Research">
       <h4>Research</h4>
       <p>Discovery transforms curiosity into knowledge that shapes the world.</p>
     </div>
@@ -186,9 +212,24 @@
       <p>We train students to be competent and ready for the global workforce.</p>
     </div>
     <div class="feature">
-      <img src="https://images.unsplash.com/photo-1590608897129-79da98d159cc" alt="Library">
+      <img src="https://images.pexels.com/photos/207662/pexels-photo-207662.jpeg" alt="Library">
       <h4>Libraries</h4>
       <p>Centers for knowledge, community, and collaboration.</p>
+    </div>
+     <div class="feature">
+      <img src="https://images.pexels.com/photos/1106468/pexels-photo-1106468.jpeg" alt="Student Life">
+      <h4>Future Ready</h4>
+      <p>Your gateway to growth, inspiration, and success.</p>
+    </div>
+    <div class="feature">
+      <img src="https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg" alt="Academic">
+      <h4>Ideas in Action</h4>
+      <p>Fuel your passion with purpose and direction.</p>
+    </div>
+    <div class="feature">
+      <img src="https://images.pexels.com/photos/3762800/pexels-photo-3762800.jpeg" alt="Library">
+      <h4>Campus Life</h4>
+      <p>Connect, thrive, and discover your place in our diverse campus community.</p>
     </div>
   </div>
 
@@ -211,6 +252,7 @@
   </div>
 </div>
 
+<!-- FIXED FULL-WIDTH FOOTER -->
 <footer>
   © 2025 University. All Rights Reserved.
 </footer>
