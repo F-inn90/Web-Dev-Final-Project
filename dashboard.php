@@ -158,6 +158,13 @@ if ($active_page === 'news' || $active_page === 'dashboard') {
 
   </a>
 </div>
+<?php if (isset($_SESSION['firstname'])): ?>
+  <div class="mb-3">
+    <h4>Welcome, <?= htmlspecialchars($_SESSION['firstname']) ?>!</h4>
+    <a href="logout.php" class="btn btn-sm btn-outline-secondary">Sign Out</a>
+  </div>
+<?php endif; ?>
+
 
 <!-- Main content -->
 <div class="main-content">
@@ -534,4 +541,5 @@ document.addEventListener('DOMContentLoaded', () => {
 </html>
 
 <?php $conn->close(); ?>
+
 
