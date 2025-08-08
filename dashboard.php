@@ -84,6 +84,14 @@ if ($active_page === 'news' || $active_page === 'dashboard') {
 }
 
 ?>
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -541,5 +549,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </html>
 
 <?php $conn->close(); ?>
+
 
 
