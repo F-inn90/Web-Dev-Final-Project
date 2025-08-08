@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2025 at 01:08 PM
+-- Generation Time: Aug 08, 2025 at 05:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -12,6 +12,10 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `university_db`
@@ -31,13 +35,15 @@ CREATE TABLE `news_feed` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- 
+-- Dumping data for table `news_feed`
 --
 
 INSERT INTO `news_feed` (`id`, `title`, `description`, `created_at`) VALUES
-(1, 'University Reopens Fall Semester', 'The university will reopen the fall semester on September 1st with new health protocols.', '2025-08-08 10:46:12'),
 (2, 'New Computer Lab Available', 'A new state-of-the-art computer lab has been opened in the Science Building for student use.', '2025-08-08 10:46:12'),
-
+(3, 'Scholarship Application Deadline', 'Reminder: The deadline to apply for scholarships for the 2025 academic year is August 15th.', '2025-08-08 10:46:12'),
+(4, 'Guest Lecture Series', 'A series of guest lectures on Artificial Intelligence will be held every Friday this semester.', '2025-08-08 10:46:12'),
+(5, 'Campus Wi-Fi Upgrade', 'Campus-wide Wi-Fi is being upgraded to improve speed and reliability for all students and staff.', '2025-08-08 10:46:12'),
+;
 
 -- --------------------------------------------------------
 
@@ -62,7 +68,29 @@ CREATE TABLE `tblstudents` (
 
 INSERT INTO `tblstudents` (`id`, `idcard`, `firstname`, `lastname`, `gender`, `address`, `class`, `ranks`) VALUES
 (1, '123', 'hi', 'hi', 'Male', '1231', '123123', 1),
-(2, '69420', 'first name', 'hi', 'Male', 'ur mom st', '1', 222);
+;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblusers`
+--
+
+CREATE TABLE `tblusers` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(50) DEFAULT NULL,
+  `lastname` varchar(50) DEFAULT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `tblusers`
+--
+
+INSERT INTO `tblusers` (`id`, `firstname`, `lastname`, `username`, `password`) VALUES
+(1, 'Admin', 'User', 'admin', '123'),
+(2, 'Admin', 'User', 'admin@gmail.com', 'A#@2025$');
 
 --
 -- Indexes for dumped tables
@@ -81,6 +109,13 @@ ALTER TABLE `tblstudents`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tblusers`
+--
+ALTER TABLE `tblusers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -88,12 +123,18 @@ ALTER TABLE `tblstudents`
 -- AUTO_INCREMENT for table `news_feed`
 --
 ALTER TABLE `news_feed`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tblstudents`
 --
 ALTER TABLE `tblstudents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tblusers`
+--
+ALTER TABLE `tblusers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
