@@ -169,7 +169,15 @@
     <a href="#">Academic</a>
     <a href="#">Blogs</a>
     <a href="#">Gallery</a>
-    <a href="signin.html"> Sign In</a>
+    
+    <?php session_start(); ?>
+  <?php if (!isset($_SESSION['username'])): ?>
+    <a href="login.php">Sign In</a>
+  <?php else: ?>
+    <a href="dashboard.php">Dashboard</a>
+    <a href="logout.php">Sign Out</a>
+  <?php endif; ?>
+    
   </nav>
 </header>
 
