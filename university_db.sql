@@ -12,10 +12,6 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `university_db`
@@ -35,16 +31,13 @@ CREATE TABLE `news_feed` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `news_feed`
+-- 
 --
 
 INSERT INTO `news_feed` (`id`, `title`, `description`, `created_at`) VALUES
 (1, 'University Reopens Fall Semester', 'The university will reopen the fall semester on September 1st with new health protocols.', '2025-08-08 10:46:12'),
 (2, 'New Computer Lab Available', 'A new state-of-the-art computer lab has been opened in the Science Building for student use.', '2025-08-08 10:46:12'),
-(3, 'Scholarship Application Deadline', 'Reminder: The deadline to apply for scholarships for the 2025 academic year is August 15th.', '2025-08-08 10:46:12'),
-(4, 'Guest Lecture Series', 'A series of guest lectures on Artificial Intelligence will be held every Friday this semester.', '2025-08-08 10:46:12'),
-(5, 'Campus Wi-Fi Upgrade', 'Campus-wide Wi-Fi is being upgraded to improve speed and reliability for all students and staff.', '2025-08-08 10:46:12'),
-(6, 'penis', 'hi', '2025-08-08 06:05:45');
+
 
 -- --------------------------------------------------------
 
