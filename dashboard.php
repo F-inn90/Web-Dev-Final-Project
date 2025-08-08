@@ -154,6 +154,8 @@ if ($active_page === 'news' || $active_page === 'dashboard') {
   </a>
   <a href="?page=news" class="<?= $active_page === 'news' ? 'active' : '' ?>">
     <i class="fas fa-newspaper"></i> News Feed
+  <a href="logout.php">Sign Out</a>
+
   </a>
 </div>
 
@@ -532,3 +534,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </html>
 
 <?php $conn->close(); ?>
+
