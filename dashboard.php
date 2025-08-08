@@ -1,4 +1,5 @@
 <?php
+
 // Database connection
 $host = 'localhost';
 $user = 'root';
@@ -532,4 +533,3 @@ document.addEventListener('DOMContentLoaded', () => {
 </html>
 
 <?php $conn->close(); ?>
-
