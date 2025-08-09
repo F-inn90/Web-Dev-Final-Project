@@ -104,50 +104,9 @@ if (!isset($_SESSION['username'])) {
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 <!-- FontAwesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<!-- Custom CSS -->
+<link rel="stylesheet" href="style.css" />
 
-<style>
-  body {
-    display: flex;
-    min-height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-  }
-  .sidebar {
-    width: 220px;
-    background: #343a40;
-    color: white;
-    flex-shrink: 0;
-    padding-top: 20px;
-  }
-  .sidebar h2 {
-    text-align: center;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #495057;
-    margin-bottom: 20px;
-  }
-  .sidebar a {
-    display: block;
-    color: white;
-    padding: 12px 20px;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .sidebar a.active, .sidebar a:hover {
-    background-color: #495057;
-  }
-  .main-content {
-    flex-grow: 1;
-    padding: 20px;
-  }
-  .table thead th {
-    background-color: #343a40;
-    color: white;
-  }
-  .card {
-    margin-bottom: 20px;
-  }
-</style>
 </head>
 <body>
 
@@ -162,212 +121,231 @@ if (!isset($_SESSION['username'])) {
   </a>
   <a href="?page=news" class="<?= $active_page === 'news' ? 'active' : '' ?>">
     <i class="fas fa-newspaper"></i> News Feed
-</a>
-<a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
   </a>
 </div>
-<?php if (isset($_SESSION['firstname'])): ?>
-  <div class="mb-3">
-    <h4>Welcome, <?= htmlspecialchars($_SESSION['firstname']) ?>!</h4>
-    <a href="logout.php" class="btn btn-sm btn-outline-secondary">Sign Out</a>
-  </div>
-<?php endif; ?>
 
-
-<!-- Main content -->
+<!-- Main content area -->
 <div class="main-content">
+  <!-- Top bar with welcome message dropdown -->
+  <div class="top-bar">
     <?php if (isset($_SESSION['firstname'])): ?>
-    <div class="alert alert-info">
-        Welcome, <?= htmlspecialchars($_SESSION['firstname']) ?>!
-    </div>
-<?php endif; ?>
-  <?php if ($active_page === 'dashboard'): ?>
-    <h1>Dashboard Overview</h1>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card border-primary">
-          <div class="card-body">
-            <h5 class="card-title">Total Students</h5>
-            <p class="card-text display-4"><?= $student_count ?? 0 ?></p>
-          </div>
+      <div class="dropdown user-dropdown">
+        <div class="welcome-message dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-user-circle"></i>
+          Welcome,<span class="username"><?= htmlspecialchars($_SESSION['firstname']) ?></span>
         </div>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <a class="dropdown-item" href="home.html">
+              <i class="fas fa-home me-2"></i>Back to Home
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" href="logout.php">
+              <i class="fas fa-sign-out-alt me-2"></i>Sign Out
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="col-md-6">
-        <div class="card border-success">
-          <div class="card-body">
-            <h5 class="card-title">Total News Items</h5>
-            <p class="card-text display-4"><?= $news_count ?? 0 ?></p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h3>Latest Students</h3>
-    <table class="table table-bordered table-striped align-middle">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>ID Card</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Gender</th>
-          <th>Class</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php 
-        if ($students_result && $students_result->num_rows > 0) {
-          $count = 0;
-          while ($row = $students_result->fetch_assoc()) {
-            $count++;
-            if ($count > 5) break; // Show only top 5
-            echo "<tr>
-              <td>{$row['ranks']}</td>
-              <td>" . htmlspecialchars($row['idcard']) . "</td>
-              <td>" . htmlspecialchars($row['firstname']) . "</td>
-              <td>" . htmlspecialchars($row['lastname']) . "</td>
-              <td>" . htmlspecialchars($row['gender']) . "</td>
-              <td>" . htmlspecialchars($row['class']) . "</td>
-            </tr>";
-          }
-        } else {
-          echo "<tr><td colspan='6'>No students found</td></tr>";
-        }
-        ?>
-      </tbody>
-    </table>
-
-    <h3>Recent News</h3>
-    <?php 
-    if ($news_result && $news_result->num_rows > 0) {
-      $news_result->data_seek(0); // Reset pointer for news
-      $count = 0;
-      while ($row = $news_result->fetch_assoc()) {
-        $count++;
-        if ($count > 5) break; // Show only 5 latest news
-        ?>
-        <div class="mb-3">
-          <h5><?= htmlspecialchars($row['title']) ?></h5>
-          <small class="text-muted"><?= date('F j, Y, g:i a', strtotime($row['created_at'])) ?></small>
-          <p><?= nl2br(htmlspecialchars($row['description'])) ?></p>
-        </div>
-      <?php
-      }
-    } else {
-      echo "<p>No news available</p>";
-    }
-    ?>
-
-  <?php elseif ($active_page === 'students'): ?>
-    <h1>Student Management</h1>
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addStudentModal">
-      <i class="fas fa-plus"></i> Add Student
-    </button>
-
-    <table class="table table-bordered table-striped align-middle">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>ID Card</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Gender</th>
-          <th>Address</th>
-          <th>Class</th>
-          <th style="width: 140px;">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php if ($students_result->num_rows > 0): ?>
-          <?php while ($row = $students_result->fetch_assoc()): ?>
-            <tr>
-              <td><?= htmlspecialchars($row['ranks']) ?></td>
-              <td><?= htmlspecialchars($row['idcard']) ?></td>
-              <td><?= htmlspecialchars($row['firstname']) ?></td>
-              <td><?= htmlspecialchars($row['lastname']) ?></td>
-              <td><?= htmlspecialchars($row['gender']) ?></td>
-              <td><?= htmlspecialchars($row['address']) ?></td>
-              <td><?= htmlspecialchars($row['class']) ?></td>
-              <td>
-                <button
-                  class="btn btn-warning btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editStudentModal"
-                  data-id="<?= $row['id'] ?>"
-                  data-idcard="<?= htmlspecialchars($row['idcard'], ENT_QUOTES) ?>"
-                  data-firstname="<?= htmlspecialchars($row['firstname'], ENT_QUOTES) ?>"
-                  data-lastname="<?= htmlspecialchars($row['lastname'], ENT_QUOTES) ?>"
-                  data-gender="<?= $row['gender'] ?>"
-                  data-address="<?= htmlspecialchars($row['address'], ENT_QUOTES) ?>"
-                  data-class="<?= htmlspecialchars($row['class'], ENT_QUOTES) ?>"
-                  data-ranks="<?= $row['ranks'] ?>"
-                >Edit</button>
-                <button
-                  class="btn btn-danger btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteStudentModal"
-                  data-id="<?= $row['id'] ?>"
-                >Delete</button>
-              </td>
-            </tr>
-          <?php endwhile; ?>
-        <?php else: ?>
-          <tr><td colspan="8" class="text-center">No students found</td></tr>
-        <?php endif; ?>
-      </tbody>
-    </table>
-
-  <?php elseif ($active_page === 'news'): ?>
-    <h1>University News</h1>
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addNewsModal">
-      <i class="fas fa-plus"></i> Add News
-    </button>
-
-    <?php if ($news_result->num_rows > 0): ?>
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Created At</th>
-            <th style="width: 140px;">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php while ($row = $news_result->fetch_assoc()): ?>
-            <tr>
-              <td><?= $row['id'] ?></td>
-              <td><?= htmlspecialchars($row['title']) ?></td>
-              <td><?= nl2br(htmlspecialchars($row['description'])) ?></td>
-              <td><?= date('Y-m-d H:i', strtotime($row['created_at'])) ?></td>
-              <td>
-                <button
-                  class="btn btn-warning btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editNewsModal"
-                  data-id="<?= $row['id'] ?>"
-                  data-title="<?= htmlspecialchars($row['title'], ENT_QUOTES) ?>"
-                  data-description="<?= htmlspecialchars($row['description'], ENT_QUOTES) ?>"
-                >Edit</button>
-                <button
-                  class="btn btn-danger btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteNewsModal"
-                  data-id="<?= $row['id'] ?>"
-                >Delete</button>
-              </td>
-            </tr>
-          <?php endwhile; ?>
-        </tbody>
-      </table>
-    <?php else: ?>
-      <p>No news available</p>
     <?php endif; ?>
-  <?php else: ?>
-    <h1>Welcome to University Dashboard</h1>
-  <?php endif; ?>
+  </div>
 
+  <!-- Content area -->
+  <div class="content-area">
+    <?php if ($active_page === 'dashboard'): ?>
+      <h1><strong>Dashboard Overview</strong></h1>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card border-primary">
+            <div class="card-body">
+              <h5 class="card-title">Total Students</h5>
+              <p class="card-text display-4"><?= $student_count ?? 0 ?></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card border-success">
+            <div class="card-body">
+              <h5 class="card-title">Total News Items</h5>
+              <p class="card-text display-4"><?= $news_count ?? 0 ?></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Latest Students</h3>
+      <div class="table-responsive-wrapper">
+        <table class="table table-bordered table-striped align-middle">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>ID Card</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Gender</th>
+              <th>Class</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            if ($students_result && $students_result->num_rows > 0) {
+              $count = 0;
+              while ($row = $students_result->fetch_assoc()) {
+                $count++;
+                if ($count > 5) break; // Show only top 5
+                echo "<tr>
+                  <td>{$row['ranks']}</td>
+                  <td>" . htmlspecialchars($row['idcard']) . "</td>
+                  <td>" . htmlspecialchars($row['firstname']) . "</td>
+                  <td>" . htmlspecialchars($row['lastname']) . "</td>
+                  <td>" . htmlspecialchars($row['gender']) . "</td>
+                  <td>" . htmlspecialchars($row['class']) . "</td>
+                </tr>";
+              }
+            } else {
+              echo "<tr><td colspan='6'>No students found</td></tr>";
+            }
+            ?>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Recent News</h3>
+      <?php
+      if ($news_result && $news_result->num_rows > 0) {
+        $news_result->data_seek(0); // Reset pointer for news
+        $count = 0;
+        while ($row = $news_result->fetch_assoc()) {
+          $count++;
+          if ($count > 5) break; // Show only 5 latest news
+          ?>
+          <div class="mb-3">
+            <h5><?= htmlspecialchars($row['title']) ?></h5>
+            <small class="text-muted"><?= date('F j, Y, g:i a', strtotime($row['created_at'])) ?></small>
+            <p><?= nl2br(htmlspecialchars($row['description'])) ?></p>
+          </div>
+        <?php
+        }
+      } else {
+        echo "<p>No news available</p>";
+      }
+      ?>
+
+    <?php elseif ($active_page === 'students'): ?>
+      <h1><strong>Student Management</strong></h1>
+      <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+        <i class="fas fa-plus"></i> Add Student
+      </button>
+
+      <div class="table-responsive-wrapper">
+        <table class="table table-bordered table-striped align-middle">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>ID Card</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Gender</th>
+              <th>Address</th>
+              <th>Class</th>
+              <th style="width: 140px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if ($students_result->num_rows > 0): ?>
+              <?php while ($row = $students_result->fetch_assoc()): ?>
+                <tr>
+                  <td><?= htmlspecialchars($row['ranks']) ?></td>
+                  <td><?= htmlspecialchars($row['idcard']) ?></td>
+                  <td><?= htmlspecialchars($row['firstname']) ?></td>
+                  <td><?= htmlspecialchars($row['lastname']) ?></td>
+                  <td><?= htmlspecialchars($row['gender']) ?></td>
+                  <td><?= htmlspecialchars($row['address']) ?></td>
+                  <td><?= htmlspecialchars($row['class']) ?></td>
+                  <td>
+                    <button
+                      class="btn btn-warning btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editStudentModal"
+                      data-id="<?= $row['id'] ?>"
+                      data-idcard="<?= htmlspecialchars($row['idcard'], ENT_QUOTES) ?>"
+                      data-firstname="<?= htmlspecialchars($row['firstname'], ENT_QUOTES) ?>"
+                      data-lastname="<?= htmlspecialchars($row['lastname'], ENT_QUOTES) ?>"
+                      data-gender="<?= $row['gender'] ?>"
+                      data-address="<?= htmlspecialchars($row['address'], ENT_QUOTES) ?>"
+                      data-class="<?= htmlspecialchars($row['class'], ENT_QUOTES) ?>"
+                      data-ranks="<?= $row['ranks'] ?>"
+                    >Edit</button>
+                    <button
+                      class="btn btn-danger btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteStudentModal"
+                      data-id="<?= $row['id'] ?>"
+                    >Delete</button>
+                  </td>
+                </tr>
+              <?php endwhile; ?>
+            <?php else: ?>
+              <tr><td colspan="8" class="text-center">No students found</td></tr>
+            <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
+
+    <?php elseif ($active_page === 'news'): ?>
+      <h1><strong>University News</strong></h1>
+      <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addNewsModal">
+        <i class="fas fa-plus"></i> Add News
+      </button>
+
+      <?php if ($news_result->num_rows > 0): ?>
+        <div class="table-responsive-wrapper">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Created At</th>
+                <th style="width: 140px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php while ($row = $news_result->fetch_assoc()): ?>
+                <tr>
+                  <td><?= $row['id'] ?></td>
+                  <td><?= htmlspecialchars($row['title']) ?></td>
+                  <td><?= nl2br(htmlspecialchars($row['description'])) ?></td>
+                  <td><?= date('Y-m-d H:i', strtotime($row['created_at'])) ?></td>
+                  <td>
+                    <button
+                      class="btn btn-warning btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editNewsModal"
+                      data-id="<?= $row['id'] ?>"
+                      data-title="<?= htmlspecialchars($row['title'], ENT_QUOTES) ?>"
+                      data-description="<?= htmlspecialchars($row['description'], ENT_QUOTES) ?>"
+                    >Edit</button>
+                    <button
+                      class="btn btn-danger btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteNewsModal"
+                      data-id="<?= $row['id'] ?>"
+                    >Delete</button>
+                  </td>
+                </tr>
+              <?php endwhile; ?>
+            </tbody>
+          </table>
+        </div>
+      <?php else: ?>
+        <p>No news available</p>
+      <?php endif; ?>
+    <?php else: ?>
+      <h1>Welcome to University Dashboard</h1>
+    <?php endif; ?>
+  </div>
 </div>
 
 <!-- Add Student Modal -->
@@ -553,7 +531,3 @@ document.addEventListener('DOMContentLoaded', () => {
 </html>
 
 <?php $conn->close(); ?>
-
-
-
-
