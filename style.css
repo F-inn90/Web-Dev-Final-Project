@@ -1,0 +1,198 @@
+/* style.css */
+
+body {
+  display: flex;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+.sidebar {
+  width: 220px;
+  background: linear-gradient(145deg, #343a40, #2c3237);
+  color: white;
+  flex-shrink: 0;
+  padding-top: 20px;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  transition: width 0.3s ease; /* Add transition for smooth resizing */
+}
+.sidebar h2 {
+  text-align: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #495057;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap; /* Prevent title from wrapping */
+}
+.sidebar a {
+  display: block;
+  color: white;
+  padding: 15px 20px;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 5px 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+.sidebar a.active, .sidebar a:hover {
+  background-color: rgba(255,255,255,0.1);
+  border-left: 3px solid #007bff;
+  transform: translateX(5px);
+}
+.sidebar a i {
+  width: 20px;
+  margin-right: 10px;
+}
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.top-bar {
+  background: white;
+  padding: 15px 25px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.user-dropdown {
+  position: relative;
+}
+.welcome-message {
+  font-weight: 600;
+  color: #495057;
+  font-size: 30px;
+  cursor: pointer;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.welcome-message:hover {
+  background-color: #f8f9fa;
+}
+.welcome-message i {
+  color: #007bff;
+  margin-right: 8px;
+}
+.welcome-message .username {
+  color: #343a40;
+  margin-left: 5px;
+}
+.welcome-message::after {
+  transition: transform 0.3s ease;
+}
+.welcome-message[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+.dropdown-menu {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: block !important;
+  visibility: hidden;
+}
+.dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+.dropdown-item {
+  transition: background-color 0.2s ease, padding-left 0.2s ease;
+}
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  padding-left: 20px;
+}
+.content-area {
+  padding: 20px;
+  flex-grow: 1;
+}
+.table thead th {
+  background-color: #343a40;
+  color: white;
+}
+.card {
+  margin-bottom: 20px;
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* For screens smaller than 768px (e.g., tablets and mobile phones) */
+@media (max-width: 768px) {
+  body {
+      flex-direction: column; /* Stack the sidebar and main content */
+  }
+  .sidebar {
+      width: 100%; /* Sidebar takes full width */
+      height: auto;
+      padding-top: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-bottom: 1px solid #495057;
+      position: relative; /* Ensure it stays in the flow */
+  }
+  .sidebar h2 {
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+  }
+  .sidebar a {
+      padding: 10px 15px;
+      margin: 5px;
+      font-size: 14px;
+      border-left: none;
+      border-radius: 5px;
+      text-align: center;
+      display: inline-block; /* Make links inline for a horizontal menu */
+  }
+  .sidebar a i {
+      display: block; /* Stack icon and text */
+      margin-right: 0;
+      margin-bottom: 5px;
+  }
+  .sidebar h2 {
+    display: none; /* Hide the title on small screens to save space */
+  }
+  .top-bar {
+      padding: 10px 15px;
+      flex-direction: column; /* Stack items vertically */
+  }
+  .welcome-message {
+      font-size: 18px;
+      padding: 5px 10px;
+  }
+  .welcome-message .username {
+      display: none; /* Hide the full username on small screens */
+  }
+  .content-area {
+      padding: 10px; /* Reduce padding on smaller screens */
+  }
+  h1 {
+      font-size: 1.5rem; /* Smaller heading on mobile */
+  }
+  .card-text {
+      font-size: 2rem; /* Make the number a bit smaller */
+  }
+}
+
+/* For a mid-width screen (e.g., small tablets or larger phones in landscape) */
+@media (min-width: 769px) and (max-width: 992px) {
+  .sidebar {
+      width: 180px; /* Slightly narrower sidebar */
+  }
+  .sidebar a {
+      padding: 12px 15px;
+  }
+  .welcome-message {
+      font-size: 24px;
+  }
+}
+
+/* General table responsiveness using a wrapper */
+.table-responsive-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
