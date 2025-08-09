@@ -20,15 +20,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'] ?? '';
 
     // Prepared statement to prevent SQL injection
-    $sql = "SELECT * FROM tblusers WHERE username = ? AND password = ? LIMIT 1";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
+   $sql = "SELECT * FROM tblusers WHERE username = ? LIMIT 1";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        // Login success
-        $user = $result->fetch_assoc();
+if ($result->num_rows > 0) {
+    $user = $result->fetch_assoc();
+
+    // Verify password against hash
+    if (password_verify($password, $user['password'])) {
         $_SESSION['username'] = $user['username'];
         $_SESSION['firstname'] = $user['firstname'];
         $_SESSION['lastname'] = $user['lastname'];
@@ -38,7 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $message = "❌ Invalid username or password";
     }
-
+} else {
+    $message = "❌ Invalid username or password";
+}
     $stmt->close();
 }
 
@@ -118,3 +122,4 @@ $conn->close();
     </div>
 </body>
 </html>
+
