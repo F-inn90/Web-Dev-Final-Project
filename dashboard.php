@@ -162,8 +162,8 @@ if (!isset($_SESSION['username'])) {
   </a>
   <a href="?page=news" class="<?= $active_page === 'news' ? 'active' : '' ?>">
     <i class="fas fa-newspaper"></i> News Feed
-  <a href="logout.php">Sign Out</a>
-
+</a>
+<a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
   </a>
 </div>
 <?php if (isset($_SESSION['firstname'])): ?>
@@ -176,7 +176,11 @@ if (!isset($_SESSION['username'])) {
 
 <!-- Main content -->
 <div class="main-content">
-
+    <?php if (isset($_SESSION['firstname'])): ?>
+    <div class="alert alert-info">
+        Welcome, <?= htmlspecialchars($_SESSION['firstname']) ?>!
+    </div>
+<?php endif; ?>
   <?php if ($active_page === 'dashboard'): ?>
     <h1>Dashboard Overview</h1>
     <div class="row">
@@ -549,6 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </html>
 
 <?php $conn->close(); ?>
+
 
 
 
