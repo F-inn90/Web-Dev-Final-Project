@@ -112,7 +112,9 @@ if (!isset($_SESSION['username'])) {
 
 <!-- Sidebar -->
 <div class="sidebar">
-  <h2>University</h2>
+  <div class="logo-container">
+    <img src="paragon-logo.png" alt="Paragon International University Cambodia" class="university-logo">
+  </div>
   <a href="?page=dashboard" class="<?= $active_page === 'dashboard' ? 'active' : '' ?>">
     <i class="fas fa-home"></i> Dashboard
   </a>
@@ -136,7 +138,7 @@ if (!isset($_SESSION['username'])) {
         </div>
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
-            <a class="dropdown-item" href="home.html">
+            <a class="dropdown-item" href="index.php">
               <i class="fas fa-home me-2"></i>Back to Home
             </a>
           </li>
