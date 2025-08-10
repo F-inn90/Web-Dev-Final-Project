@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch news items from the database, ordered by creation date in descending order
-$news_result = $conn->query("SELECT title, description, created_at FROM news_feed ORDER BY created_at DESC");
+$news_result = $conn->query("SELECT title, description, created_at FROM news_feed ORDER BY created_at DESC LIMIT 4");
 
 ?>
 <!DOCTYPE html>
