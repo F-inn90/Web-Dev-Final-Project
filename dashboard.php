@@ -73,7 +73,7 @@ $active_page = $_GET['page'] ?? 'dashboard';
 
 // Fetch students
 if ($active_page === 'students' || $active_page === 'dashboard') {
-    $students_result = $conn->query("SELECT * FROM tblstudents ORDER BY ranks ASC");
+   $students_result = $conn->query("SELECT * FROM tblstudents WHERE class = '12' ORDER BY ranks ASC LIMIT 4");
     $student_count = $students_result->num_rows;
 }
 
@@ -531,5 +531,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 <?php $conn->close(); ?>
