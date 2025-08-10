@@ -116,5 +116,22 @@ $conn->close();
             <button type="submit" class="signin-btn">Sign in</button>
         </form>
     </div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const form = document.querySelector('form'); // your login form
+  if (!form) return;
+  form.addEventListener('submit', function(e){
+    const username = form.querySelector('input[name="username"]').value.trim();
+    const password = form.querySelector('input[name="password"]').value.trim();
+    if (!username || !password) {
+      e.preventDefault();
+      alert('This field is required'); // exact message from PDF
+      return false;
+    }
+  });
+});
+</script>
+
 </body>
 </html>
+
